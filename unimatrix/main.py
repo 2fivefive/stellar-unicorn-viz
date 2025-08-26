@@ -8,7 +8,7 @@ import machine
 machine.freq(200000000)
 
 POLL_INTERVAL = 1 # per second
-FPS = 8
+FPS = 4
 TRAIL_LENGTH = 5
 TRAIL_COLOR = (64,255,0)
 DOT_COLOR = (192,255,96)
