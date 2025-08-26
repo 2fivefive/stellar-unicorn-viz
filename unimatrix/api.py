@@ -3,10 +3,11 @@ import network
 import machine
 import requests
 import ujson
-import asyncio, aiohttp
+import uasyncio as asyncio
+import aiohttp
 
 
-POLL_INTERVAL_SECONDS = 3
+POLL_INTERVAL_SECONDS = 1
 CURRENT_BW = (0,0)
 
 #network stuff
@@ -36,17 +37,17 @@ def get_details(key):
 
 async def get_uplink_bw(siteId, deviceId):
     global CURRENT_BW
+    global headers
+    url=f'https://192.168.1.1/proxy/network/integration/v1/sites/{siteId}/devices/{deviceId}/statistics/latest'
+    
     async with aiohttp.ClientSession() as session:
-        url=f'https://192.168.1.1/proxy/network/integration/v1/sites/{siteId}/devices/{deviceId}/statistics/latest'
         while True:
-            print("getting")
             async with session.get(url, headers=headers) as response:
-                print("awaiting text")
-
                 stats = await response.json()
                 tx = stats['uplink']['txRateBps']
                 rx = stats['uplink']['rxRateBps']
                 CURRENT_BW = tx,rx
-                print(CURRENT_BW)
+                print(f"tx: {tx}   rx:{rx}")
                 await asyncio.sleep(POLL_INTERVAL_SECONDS)
+                
 
