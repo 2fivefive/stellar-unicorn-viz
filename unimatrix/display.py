@@ -9,7 +9,7 @@ palette =[]
 for i in range(6):
     palette.append(graphics.create_pen(32*i,42*i,21*i))
 palette.reverse()
- 
+
 def draw(dots):
     graphics.set_pen(graphics.create_pen(0,0,0))
     graphics.clear()
